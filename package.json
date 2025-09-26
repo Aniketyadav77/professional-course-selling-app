@@ -1,0 +1,46 @@
+{
+  "name": "professional-course-selling-app",
+  "version": "1.0.0",
+  "description": "A comprehensive platform for selling and managing online courses, built from scratch with modern web technologies",
+  "main": "server/src/index.js",
+  "scripts": {
+    "dev": "concurrently \"npm run server:dev\" \"npm run client:dev\"",
+    "server:dev": "cd server && npm run dev",
+    "client:dev": "cd client && npm run dev",
+    "build": "npm run client:build && npm run server:build",
+    "client:build": "cd client && npm run build",
+    "server:build": "cd server && npm run build",
+    "start": "npm run server:start",
+    "server:start": "cd server && npm run start",
+    "test": "npm run client:test && npm run server:test",
+    "client:test": "cd client && npm run test",
+    "server:test": "cd server && npm run test",
+    "db:migrate": "cd server && npm run db:migrate",
+    "db:seed": "cd server && npm run db:seed"
+  },
+  "keywords": [
+    "course-selling",
+    "e-learning",
+    "education",
+    "online-courses",
+    "lms",
+    "react",
+    "nodejs",
+    "nextjs",
+    "professional"
+  ],
+  "author": "Aniket Yadav <aniketyadav77@example.com>",
+  "license": "MIT",
+  "type": "commonjs",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Aniketyadav77/professional-course-selling-app.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Aniketyadav77/professional-course-selling-app/issues"
+  },
+  "homepage": "https://github.com/Aniketyadav77/professional-course-selling-app#readme",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
