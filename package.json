@@ -42,5 +42,9 @@
   "homepage": "https://github.com/Aniketyadav77/professional-course-selling-app#readme",
   "devDependencies": {
     "concurrently": "^8.2.2"
+  },
+  "dependencies": {
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.18.2"
   }
 }
