@@ -1,39 +1,16 @@
 const express = require('express')
-const app = express()
-const port = 3000
 
-app.use(express.json());
+const {userRouter} = require("./routes/user");
+const {courseRouter}= require("./routes/course");
+const {adminRouter} =require("./routes/admin")
+const app = express();
 
-app.post("/signup", async function(req, res){
-
-
-    res.json({message: "you are signed up"});
-    
-});
-
-app.post("/signin", async function(req, res){
-
-    
-    res.json({message: "you are signed in"});
-    
-});
+app.use("/api/v1/user", userRouter);
+app.use("/api/v1/admin", adminRouter);
+app.use("/api/v1/course", courseRouter);
 
 
-app.post("/course/purchace", async function(req, res){
-
-    res.json({message: "signup endpoint"})
-});
-
-app.get("/courses", async function(req, res){
-
-    res.json({message: "signup endpoint"})
-});
-
-
-app.post("/user/purchases", async function(req, res){
-
-    res.json({message: "signup endpoint"})
-});
+app.listen(3000);
 
 
 
