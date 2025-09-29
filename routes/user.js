@@ -1,7 +1,7 @@
 const express = require("express");
 const {Router} = require ("express");
-
-const userROuter = Router();
+const { userModel } = require("../db")
+const userRouter = Router();
 userRouter.post("/signup", function(req, res){
     res.json({
         message: "signup endpoint"
