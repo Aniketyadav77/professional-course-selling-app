@@ -15,15 +15,14 @@ function generateToken(payload){
 
 // hashing password function for security 
 
-async function hashpassword(password){
-    const saltRounds =10 ;
+async function hashPassword(password){
+    const saltRounds = 10;
     return await bcrypt.hash(password, saltRounds);
-
 }
-//compare password
-  async function comparepassword(password, hashedpassword){
 
-    return await bcrypt.compare(password, hashedpassword);
+//compare password
+async function comparePassword(password, hashedPassword){
+    return await bcrypt.compare(password, hashedPassword);
 }
 
 
@@ -33,13 +32,11 @@ async function hashpassword(password){
 // HELPER FUNCTION FOR EXTRACTING TOKEN ONLY 
 
 function extractToken(req){
-    const authHeader = req.header.autherization;
-    if (!authHeader || !authHeader.stratsWith("Bearer ")){
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith("Bearer ")){
         return null;
     }
-
     return authHeader.split(" ")[1];
-
 }
 
 // user auth middleware 
@@ -55,64 +52,53 @@ function authenticateUser(req, res, next) {
     try {
         const decoded = jwt.verify(token, JWT_SECRET);
         req.user = {
-            id: decoded.id, 
-            role: decoded.role
-        } ;
+            userId: decoded.userId,
+            email: decoded.email,
+            type: decoded.type
+        };
         next();
-
-    }  catch (error){
-        if(error.name=== "TokenExpeiedErrror")  {
-            return res.status(401).json({message : "token expired"});
+    } catch (error){
+        if(error.name === "TokenExpiredError") {
+            return res.status(401).json({message: "Token expired"});
         }
-            return res.status(401).json({ message: "Invalid token "     }) ;
-        }
- }
+        return res.status(401).json({ message: "Invalid token" });
+    }
+}
     
 
 
-// ADM9N AUTHENTICATE MIDDELWARE 
+// ADMIN AUTHENTICATE MIDDLEWARE 
 function authenticateAdmin(req, res, next) {
     const token = extractToken(req);
 
-
-
-     if (!token){
+    if (!token){
         return res.status(401).json({
-            message: "access denied. no token provided "
+            message: "Access denied. No token provided."
         });
-    
-     }
-}
-
-
- try {
-    const decoded = jwt.verify(token, JWT_SECRET);
-    if (decoded.role!=="admin"){
-        return res.status(401).json({ message: "forbidden admins access only"});
-
     }
-    req.admin = {
-        id : decoded.id,
-         role: decoded.role
-    };
-    next();
-    
- }
-catch (error)
-{
-if (error.name== "TOkenExpiredError"){
-    return res.status(401).json({message: "Token expired ."});
 
-}
-return res.status(401).json({message: "Invalid token "});
-
+    try {
+        const decoded = jwt.verify(token, JWT_SECRET);
+        req.admin = {
+            adminId: decoded.adminId,
+            email: decoded.email,
+            type: decoded.type
+        };
+        next();
+    }
+    catch (error) {
+        if (error.name === "TokenExpiredError"){
+            return res.status(401).json({message: "Token expired."});
+        }
+        return res.status(401).json({message: "Invalid token"});
+    }
 }
 
 
 module.exports = {
     generateToken, 
-    hashpassword, 
-    comparepassword, 
+    hashPassword, 
+    comparePassword, 
     authenticateUser,
     authenticateAdmin
 };
